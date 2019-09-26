@@ -64,25 +64,25 @@ $config = [
             ],
         ],
     ],
-    // 'as access' => [
-    //     'class' => 'mdm\admin\components\AccessControl',
-    //     'allowActions' => [
-    //         "*",
-    //     ],
-    // ],
-    'as beforeRequest' => [
-        'class' => 'yii\filters\AccessControl',
-        'rules' => [
-            [
-                'actions' => ['login', 'error'],
-                'allow' => true,
-            ],
-            [
-                'allow' => true,
-                'roles' => ['@'],
-            ]
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            "*",
         ],
     ],
+    // 'as beforeRequest' => [
+    //     'class' => 'yii\filters\AccessControl',
+    //     'rules' => [
+    //         [
+    //             'actions' => ['login', 'error'],
+    //             'allow' => true,
+    //         ],
+    //         [
+    //             'allow' => true,
+    //             'roles' => ['@'],
+    //         ]
+    //     ],
+    // ],
     'params' => $params,
 ];
 

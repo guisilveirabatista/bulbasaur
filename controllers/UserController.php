@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         $model = new User();
         if ($model->load(Yii::$app->request->post())) {
-            $model->authKey = $model->generateAuthKey();
+            //$model->authKey = $model->generateAuthKey();
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }

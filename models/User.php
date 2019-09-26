@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\Expression;
 use yii\web\IdentityInterface;
+use yii\base\Security;
 
 /**
  * This is the model class for table "user".
