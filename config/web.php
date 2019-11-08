@@ -11,18 +11,48 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    // 'modules'=>[
+    //     'oauth2' => [
+    //         'class' => 'filsh\yii2\oauth2server\Module',            
+    //         'tokenParamName' => 'accessToken',
+    //         'tokenAccessLifetime' => 3600 * 24,
+    //         'storageMap' => [
+    //             'user_credentials' => 'app\models\User',
+    //         ],
+    //         'grantTypes' => [
+    //             'user_credentials' => [
+    //                 'class' => 'OAuth2\GrantType\UserCredentials',
+    //             ],
+    //             'refresh_token' => [
+    //                 'class' => 'OAuth2\GrantType\RefreshToken',
+    //                 'always_issue_new_refresh_token' => true
+    //             ]
+    //         ]
+    //     ]
+    // ],
+    'modules' => [
+        'api' => [
+            'class' => 'app\modules\api\ApiModule',
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'Kg3znSoywEdPZbnwQJ6qvt34hEnkKH0s',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
+            'enableCsrfCookie' => false
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-            'loginUrl' => ['site/login'],
+            //'enableAutoLogin' => true,
+            //'loginUrl' => ['site/login'],
+            // 'enableSession' => false,
+            'loginUrl' => null,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -59,30 +89,44 @@ $config = [
         'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
+            //'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'pluralize' => false, 'controller' => 'user'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['api/token']],
             ],
+            // 'enablePrettyUrl' => true,
+            // //'enableStrictParsing' => true,
+            // 'showScriptName' => false,
+            // 'rules' => [
+            // ],
+            // 'rules' => [
+            //     ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
+            // ],
+            // 'rules' => [
+            //     'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
+            // ]
         ],
     ],
-    'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
-        'allowActions' => [
-            "*",
-        ],
-    ],
-    // 'as beforeRequest' => [
-    //     'class' => 'yii\filters\AccessControl',
-    //     'rules' => [
-    //         [
-    //             'actions' => ['login', 'error'],
-    //             'allow' => true,
-    //         ],
-    //         [
-    //             'allow' => true,
-    //             'roles' => ['@'],
-    //         ]
+    // 'as access' => [
+    //     'class' => 'mdm\admin\components\AccessControl',
+    //     'allowActions' => [
+    //         "api/*",
     //     ],
     // ],
+    'as beforeRequest' => [
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'actions' => ['login', 'error', 'api'],
+                'allow' => true,
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ]
+        ],
+    ],
     'params' => $params,
 ];
 
